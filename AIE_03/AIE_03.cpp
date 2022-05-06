@@ -48,5 +48,11 @@ const int* BinarySearch(const int* arr, int count, int searchVal)
 	//	- Return: nullptr if the value is not found
 	//  - Return: pointer to the found value in the array
 	
+	for (int i = 0; i < count; i++) {
+		if (arr[i] == searchVal) {
+			return &arr[i];
+		}
+	}
+
 	return nullptr;
 }

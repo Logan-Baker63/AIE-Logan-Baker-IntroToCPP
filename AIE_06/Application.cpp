@@ -1,7 +1,7 @@
 #include "Application.h"
 #include "raylib.h"
 #include <stdlib.h>
-
+#include <algorithm>
 
 Application::Application()
 {
@@ -36,7 +36,10 @@ void Application::Load()
 	// value between 0 and 5 exclusive;
 	// -----------------------------------------------------
 	
-	// write your code here
+	for (int i = 0; i < ROWS * COLS; i++) {
+		m_tiles[i] = std::rand() % 6;
+	}
+	
 
 	// -----------------------------------------------------
 }
@@ -54,11 +57,11 @@ void Application::Update(float deltaTime)
 
 		// Task 3:
 		// TODO: Calculate row and col index based on the mouse positon
-		int rowIndex = 0; 
-		int colIndex = 0;
+		int rowIndex = mousePos.y;
+		int colIndex = mousePos.y;
 
 		// TODO: calculate the index of the tile clicked on based on the row/col index
-		int tileIndex = 0;
+		int tileIndex = rowIndex*colIndex;
 
 		m_tiles[tileIndex] += 1;
 		if (m_tiles[tileIndex] >= 5)
@@ -83,9 +86,21 @@ void Application::Draw()
 	// write your code here
 	float xPos = 0;
 	float yPos = 0;
-	Color color = GetTileColor(1); // pass in the tilevalue
 
-	DrawRectangle(xPos, yPos, m_tileWidth, m_tileHeight, color);
+	for (int r = 0; r < ROWS; r++) {
+		yPos = r * m_tileHeight;
+		for (int c = 0; c < COLS; c++) {
+			yPos = c * m_tileWidth;
+
+			Color color = GetTileColor((r*COLS) + c); // pass in the tilevalue
+
+			DrawRectangle(xPos, yPos, m_tileWidth, m_tileHeight, color);
+		}
+	}
+
+	 
+
+	
 
 	// --------------------------------------------------------------------
 
