@@ -31,7 +31,7 @@ int MinValue(const int* arr, int count)
 {
 	// TODO: loop through the array, return the smallest value
 
-	int smallestVal = 99999999;
+	int smallestVal = INT_MAX;
 	for (int i = 0; i < count; i++) 
 	{
 		if (arr[i] < smallestVal) {
@@ -46,7 +46,7 @@ int MaxValue(const int* arr, int count)
 {
 	// TODO: loop through the array, return the largest value
 
-	int largestVal = -99999999;
+	int largestVal = INT_MIN;
 	for (int i = 0; i < count; i++)
 	{
 		if (arr[i] > largestVal) {

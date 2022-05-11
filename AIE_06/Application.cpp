@@ -37,7 +37,7 @@ void Application::Load()
 	// -----------------------------------------------------
 	
 	for (int i = 0; i < ROWS * COLS; i++) {
-		m_tiles[i] = std::rand() % 6;
+		m_tiles[i] = std::rand() % 5;
 	}
 	
 
@@ -57,16 +57,35 @@ void Application::Update(float deltaTime)
 
 		// Task 3:
 		// TODO: Calculate row and col index based on the mouse positon
-		int rowIndex = mousePos.y;
-		int colIndex = mousePos.y;
+
+		int rowIndex = mousePos.x / m_tileHeight;
+
+		int colIndex = mousePos.y / m_tileWidth;
 
 		// TODO: calculate the index of the tile clicked on based on the row/col index
-		int tileIndex = rowIndex*colIndex;
+		int tileIndex = (rowIndex * COLS) + colIndex;
+		
+		RotateTileColour(tileIndex, false);
+	}
+	
+	//static effect
+	/*for (int i = 0; i < 2500; i++) {
+		RotateTileColour(std::rand() % (ROWS * COLS), true);
+	}*/
+	
+}
 
+void Application::RotateTileColour(int tileIndex, bool random) {
+	
+	if (!random) {
 		m_tiles[tileIndex] += 1;
 		if (m_tiles[tileIndex] >= 5)
 			m_tiles[tileIndex] = 0;
 	}
+	else {
+		m_tiles[tileIndex] = std::rand() % 5;
+	}
+	
 }
 
 void Application::Draw()
@@ -88,11 +107,11 @@ void Application::Draw()
 	float yPos = 0;
 
 	for (int r = 0; r < ROWS; r++) {
-		yPos = r * m_tileHeight;
+		xPos = r * m_tileHeight;
 		for (int c = 0; c < COLS; c++) {
 			yPos = c * m_tileWidth;
 
-			Color color = GetTileColor((r*COLS) + c); // pass in the tilevalue
+			Color color = GetTileColor(m_tiles[(r * COLS) + c]); // pass in the tilevalue
 
 			DrawRectangle(xPos, yPos, m_tileWidth, m_tileHeight, color);
 		}
@@ -112,10 +131,10 @@ Color Application::GetTileColor(int tileValue)
 	switch (tileValue)
 	{
 	case 0: return WHITE;
-	case 1: return RED;
-	case 2: return GREEN;
-	case 3: return BLUE;
-	case 4: return YELLOW;
+	case 1: return LIGHTGRAY;
+	case 2: return WHITE;
+	case 3: return LIGHTGRAY;
+	case 4: return GRAY;
 	}
 	
 	return BLACK;
