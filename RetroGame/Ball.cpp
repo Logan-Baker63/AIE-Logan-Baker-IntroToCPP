@@ -1,9 +1,13 @@
 #include "Ball.h"
 #include "Game.h"
+#include <iomanip>
+#include <iostream>
+#include <stdlib.h>
+
 
 using namespace std;
 
-Vector2 dir = raylib::Vector2(400, 250);
+Vector2 dir = raylib::Vector2(0, 0);
 
 Ball::Ball(Texture2D texture, Vector2 position)
 {
@@ -14,23 +18,80 @@ Ball::Ball(Texture2D texture, Vector2 position)
 
 void Ball::Start() 
 {
+	//Sleep(2);
 	
+	int temp = std::rand() % 3;
+
+	if (temp == 0) {
+		int temp1 = std::rand() % 2;
+		if (temp1 == 0) {
+			dir.y = 150;
+		}
+		else if (temp1 == 1) {
+			dir.y = -150;
+		}
+		
+		int temp2 = std::rand() % 2;
+		if (temp2 == 0) {
+			dir.x = 500;
+		}
+		else if (temp2 == 1) {
+			dir.x = -500;
+		}
+	}
+	else if (temp == 1) {
+		int temp1 = std::rand() % 2;
+		if (temp1 == 0) {
+			dir.y = 190;
+		}
+		else if (temp1 == 1) {
+			dir.y = -190;
+		}
+
+		int temp2 = std::rand() % 2;
+		if (temp2 == 0) {
+			dir.x = 460;
+		}
+		else if (temp2 == 1) {
+			dir.x = -460;
+		}
+	}
+	else if (temp == 2) {
+		int temp1 = std::rand() % 2;
+		if (temp1 == 0) {
+			dir.y = 250;
+		}
+		else if (temp1 == 1) {
+			dir.y = -250;
+		}
+
+		int temp2 = std::rand() % 2;
+		if (temp2 == 0) {
+			dir.x = 400;
+		}
+		else if (temp2 == 1) {
+			dir.x = -400;
+		}
+	}
+
 }
 
 void Ball::Update() 
 {
 	
 
-	if (Position.x >= 600)
+	if (Position.x >= 600 + 600)
 	{
 		// Player 1 Point
+		Start();
 		Position = raylib::Vector2(290, 290);
 		Player1Score++;
 	}
 	
-	if (Position.x <= 0) 
+	if (Position.x <= 0 - 600) 
 	{
 		// Player 2 Point
+		Start();
 		Position = raylib::Vector2(290, 290);
 		Player2Score++;
 	}
@@ -85,9 +146,6 @@ void Ball::Draw()
 	DrawText(score1, 150 - MeasureText(score1, 40), 150, 40, RAYWHITE);
 	DrawText(score2, 450 - MeasureText(score2, 40), 150, 40, RAYWHITE);
 
-	if (IsKeyDown(KEY_P)) {
-		int i = 0;
-	}
 }
 
 void Ball::Move(Vector2 dir) 
