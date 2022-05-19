@@ -7,7 +7,8 @@ int main()
     int screenWidth = 600;
     int screenHeight = 600;
 
-    InitWindow(screenWidth, screenHeight, "Retro Game");
+    InitWindow(screenWidth, screenHeight, "Pong");
+    SetWindowIcon(LoadImage("Textures/PongIcon.png"));
 
     SetTargetFPS(60);
 
@@ -22,7 +23,9 @@ int main()
         
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(GRAY);
+
+        game.Draw();
 
         EndDrawing();
     }

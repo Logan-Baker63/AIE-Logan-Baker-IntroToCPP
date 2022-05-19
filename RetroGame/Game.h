@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "raylib.h"
+#include "raylib-cpp.hpp"
 #include <string>
 
 using namespace std;
@@ -11,6 +11,14 @@ public:
 	Game();
 	void Start();
 	void Update();
-	Texture2D defaultTex;
+
+	Texture2D defaultBatTex;
+	Texture2D defaultBallTex;
+
+	void Draw();
+	float PlayerSpeed = 1300;
+
+	
+
 };
 

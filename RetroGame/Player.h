@@ -12,5 +12,9 @@ public:
 	Texture2D Texture;
 	Vector2 Position;
 
+	void Draw();
+
+	
+
 };
 
