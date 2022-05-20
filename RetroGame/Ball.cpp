@@ -9,16 +9,20 @@ using namespace std;
 
 Vector2 dir = raylib::Vector2(0, 0);
 
-Ball::Ball(Texture2D texture, Vector2 position)
+Ball::Ball(Texture2D texture, Vector2 position, Color colour)
 {
 	Texture = texture;
 	Position = position;
-	
+	Colour = colour;
 }
+
+float startTimer = 0;
+Vector2 normalSpeed;
 
 void Ball::Start() 
 {
 	isSlow = true;
+
 
 	int temp = std::rand() % 3;
 
@@ -74,6 +78,7 @@ void Ball::Start()
 		}
 	}
 
+	normalSpeed = dir;
 	dir.x /= 2.5f;
 	dir.y /= 2.5f;
 }
@@ -81,7 +86,7 @@ void Ball::Start()
 void Ball::Update() 
 {
 	
-	if (IsKeyDown(KEY_A)) 
+	if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && !(IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))
 	{
 		if (IsKeyDown(KEY_W)) {
 			/*if (dir.x < 0) {
@@ -90,8 +95,8 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x -= 2.5f;
-			dir.y += 2.5f;
+			dir.x -= 4.5f;
+			dir.y += 4.5f;
 		}
 
 		if (IsKeyDown(KEY_S)) {
@@ -101,12 +106,12 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x += 2.5f;
-			dir.y -= 2.5f;
+			dir.x += 4.5f;
+			dir.y -= 4.5f;
 		}
 	}
 
-	if (IsKeyDown(KEY_RIGHT))
+	if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_A) && IsKeyDown(KEY_D)))
 	{
 		if (IsKeyDown(KEY_UP)) {
 			/*if (dir.x < 0) {
@@ -115,8 +120,8 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x -= 2.5f;
-			dir.y += 2.5f;
+			dir.x -= 4.5f;
+			dir.y += 4.5f;
 		}
 
 		if (IsKeyDown(KEY_DOWN)) {
@@ -126,13 +131,13 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x += 2.5f;
-			dir.y -= 2.5f;
+			dir.x += 4.5f;
+			dir.y -= 4.5f;
 		}
 	}
 
 
-	if (Position.x >= 600 + 600)
+	if (Position.x >= 600)
 	{
 		// Player 1 Point
 		Start();
@@ -140,7 +145,7 @@ void Ball::Update()
 		Player1Score++;
 	}
 	
-	if (Position.x <= 0 - 600) 
+	if (Position.x <= 0) 
 	{
 		// Player 2 Point
 		Start();
@@ -150,18 +155,18 @@ void Ball::Update()
 
 	if (Position.x > Player1Pos.x && Position.x < Player1Pos.x + 10) 
 	{
-		if (Position.y > Player1Pos.y - 15 && Position.y < Player1Pos.y + 65 + 15) 
+		if (Position.y > Player1Pos.y - 15 && Position.y < Player1Pos.y + 65 + 5) 
 		{
 			// Collided with player 1
 
 			if (isSlow) {
-				dir.x *= 2.5f;
-				dir.y *= 2.5f;
+				dir.x = normalSpeed.x;
+				dir.y = normalSpeed.y;
 				isSlow = false;
 			}
 
 			if (hitInvert1) {
-				dir = raylib::Vector2(-abs(dir.x), -dir.y);
+				dir = raylib::Vector2(-abs(dir.x * 1.0f), -dir.y * 1.0f);
 			}
 			else {
 				dir = raylib::Vector2(-abs(dir.x), dir.y);
@@ -170,20 +175,20 @@ void Ball::Update()
 		}
 	}
 
-	if (Position.x >= Player2Pos.x - 3 && Position.x < Player2Pos.x + 10)
+	if (Position.x >= Player2Pos.x - 10 && Position.x < Player2Pos.x + 10)
 	{
-		if (Position.y > Player2Pos.y - 15 && Position.y < Player2Pos.y + 65 + 15)
+		if (Position.y > Player2Pos.y - 15 && Position.y < Player2Pos.y + 65 + 5)
 		{
 			// Collided with player 2
 
 			if (isSlow) {
-				dir.x *= 2.5f;
-				dir.y *= 2.5f;
+				dir.x = normalSpeed.x;
+				dir.y = normalSpeed.y;
 				isSlow = false;
 			}
 
 			if (hitInvert2) {
-				dir = raylib::Vector2(abs(dir.x), -dir.y);
+				dir = raylib::Vector2(abs(dir.x * 1.0f), -dir.y * 1.0f);
 			}
 			else {
 				dir = raylib::Vector2(abs(dir.x), dir.y);
@@ -192,24 +197,53 @@ void Ball::Update()
 		}
 	}
 
+	// Collided with the roof
 	if (Position.y <= 0)
 	{
-		// Collided with the roof
+		
+		if ((IsKeyDown(KEY_D) && IsKeyDown(KEY_A)) || ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))) {
+
+		}
+
 		dir = raylib::Vector2(dir.x, -abs(dir.y));
 	}
 
+	// Collided with the ground
 	if (Position.y >= 600)
 	{
-		// Collided with the ground
+		
+		if ((IsKeyDown(KEY_D) && IsKeyDown(KEY_A)) || ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))) {
+
+		}
 		dir = raylib::Vector2(dir.x, abs(dir.y));
 	}
 
 	Move(dir);
 }
 
+float timer = 0;
+float timer2 = 0;
+
 void Ball::Draw()
 {
-	DrawTextureEx(Texture, Position, 0, 1, WHITE);
+	if ((IsKeyDown(KEY_D) && IsKeyDown(KEY_A)) || ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))) {
+		Colour = GOLD;
+		timer += GetFrameTime();
+		if (timer >= 0.3f) {
+			Colour = GOLD;
+			DrawTextureEx(Texture, Position, 0, 1, Colour);
+			timer2 += GetFrameTime();
+			if (timer2 >= 0.35f) {
+				timer = 0;
+				timer2 = 0;
+			}
+		}
+	}
+	else {
+		Colour = WHITE;
+		DrawTextureEx(Texture, Position, 0, 1, Colour);
+	}
+	
 
 	
 

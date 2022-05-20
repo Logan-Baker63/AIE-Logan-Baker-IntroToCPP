@@ -8,9 +8,10 @@ using namespace std;
 class Ball
 {
 public:
-	Ball(Texture2D texture, Vector2 position);
+	Ball(Texture2D texture, Vector2 position, Color colour);
 	Texture2D Texture;
 	Vector2 Position;
+	Color Colour;
 
 	void Start();
 	void Draw();
