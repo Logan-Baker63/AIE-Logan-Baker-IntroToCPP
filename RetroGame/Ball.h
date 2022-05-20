@@ -22,5 +22,7 @@ public:
 
 	int Player1Score = 0;
 	int Player2Score = 0;
+
+	bool isSlow = true;
 };
 

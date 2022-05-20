@@ -18,8 +18,8 @@ Ball::Ball(Texture2D texture, Vector2 position)
 
 void Ball::Start() 
 {
-	//Sleep(2);
-	
+	isSlow = true;
+
 	int temp = std::rand() % 3;
 
 	if (temp == 0) {
@@ -74,6 +74,8 @@ void Ball::Start()
 		}
 	}
 
+	dir.x /= 2.5f;
+	dir.y /= 2.5f;
 }
 
 void Ball::Update() 
@@ -101,6 +103,12 @@ void Ball::Update()
 		if (Position.y > Player1Pos.y - 15 && Position.y < Player1Pos.y + 65 + 15) 
 		{
 			// Collided with player 1
+
+			if (isSlow) {
+				dir.x *= 2.5f;
+				dir.y *= 2.5f;
+				isSlow = false;
+			}
 			dir = raylib::Vector2(-abs(dir.x), dir.y);
 		}
 	}
@@ -110,6 +118,12 @@ void Ball::Update()
 		if (Position.y > Player2Pos.y - 15 && Position.y < Player2Pos.y + 65 + 15)
 		{
 			// Collided with player 2
+
+			if (isSlow) {
+				dir.x *= 2.5f;
+				dir.y *= 2.5f;
+				isSlow = false;
+			}
 			dir = raylib::Vector2(abs(dir.x), dir.y);
 		}
 	}

@@ -16,8 +16,7 @@ public:
 	Texture2D defaultBallTex;
 
 	void Draw();
-	float PlayerSpeed = 1300;
-
+	float PlayerSpeed = 500;
 	
 
 };
