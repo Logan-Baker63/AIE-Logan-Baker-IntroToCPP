@@ -95,7 +95,11 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x -= 4.5f;
+
+			if (IsKeyDown(KEY_A) && !dir.x > -20) {
+				dir.x -= 4.5f;
+			}
+			
 			dir.y += 4.5f;
 		}
 
@@ -106,7 +110,10 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x += 4.5f;
+			
+			if (IsKeyDown(KEY_A) && !dir.x > -20) {
+				dir.x -= 4.5f;
+			}
 			dir.y -= 4.5f;
 		}
 	}
@@ -120,7 +127,10 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x -= 4.5f;
+			
+			if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
+				dir.x += 4.5f;
+			}
 			dir.y += 4.5f;
 		}
 
@@ -131,7 +141,10 @@ void Ball::Update()
 			else {
 				dir.x += 2.5f;
 			}*/
-			dir.x += 4.5f;
+			
+			if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
+				dir.x += 4.5f;
+			}
 			dir.y -= 4.5f;
 		}
 	}
