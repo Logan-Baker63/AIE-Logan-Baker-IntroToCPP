@@ -28,5 +28,7 @@ public:
 	bool hitInvert2 = false;
 
 	bool isSlow = true;
+
+	int lastPlayer = 0;
 };
 

@@ -23,6 +23,7 @@ void Ball::Start()
 {
 	isSlow = true;
 
+	lastPlayer = 0;
 
 	int temp = std::rand() % 3;
 
@@ -86,7 +87,7 @@ void Ball::Start()
 void Ball::Update() 
 {
 	
-	if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && !(IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))
+	if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && !(IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)) && lastPlayer == 1)
 	{
 		if (IsKeyDown(KEY_W)) {
 			/*if (dir.x < 0) {
@@ -100,7 +101,7 @@ void Ball::Update()
 				dir.x -= 4.5f;
 			}
 			
-			dir.y += 4.5f;
+			dir.y += 11.5f;
 		}
 
 		if (IsKeyDown(KEY_S)) {
@@ -114,11 +115,11 @@ void Ball::Update()
 			if (IsKeyDown(KEY_A) && !dir.x > -20) {
 				dir.x -= 4.5f;
 			}
-			dir.y -= 4.5f;
+			dir.y -= 11.5f;
 		}
 	}
 
-	if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_A) && IsKeyDown(KEY_D)))
+	if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_A) && IsKeyDown(KEY_D)) && lastPlayer == 2)
 	{
 		if (IsKeyDown(KEY_UP)) {
 			/*if (dir.x < 0) {
@@ -131,7 +132,7 @@ void Ball::Update()
 			if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
 				dir.x += 4.5f;
 			}
-			dir.y += 4.5f;
+			dir.y += 11.5f;
 		}
 
 		if (IsKeyDown(KEY_DOWN)) {
@@ -145,7 +146,7 @@ void Ball::Update()
 			if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
 				dir.x += 4.5f;
 			}
-			dir.y -= 4.5f;
+			dir.y -= 11.5f;
 		}
 	}
 
@@ -172,6 +173,8 @@ void Ball::Update()
 		{
 			// Collided with player 1
 
+			lastPlayer = 1;
+
 			if (isSlow) {
 				dir.x = normalSpeed.x;
 				dir.y = normalSpeed.y;
@@ -193,6 +196,8 @@ void Ball::Update()
 		if (Position.y > Player2Pos.y - 15 && Position.y < Player2Pos.y + 65 + 5)
 		{
 			// Collided with player 2
+
+			lastPlayer = 2;
 
 			if (isSlow) {
 				dir.x = normalSpeed.x;
