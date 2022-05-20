@@ -23,6 +23,9 @@ public:
 	int Player1Score = 0;
 	int Player2Score = 0;
 
+	bool hitInvert1 = false;
+	bool hitInvert2 = false;
+
 	bool isSlow = true;
 };
 

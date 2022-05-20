@@ -81,6 +81,56 @@ void Ball::Start()
 void Ball::Update() 
 {
 	
+	if (IsKeyDown(KEY_A)) 
+	{
+		if (IsKeyDown(KEY_W)) {
+			/*if (dir.x < 0) {
+				dir.x += 2.5f;
+			}
+			else {
+				dir.x += 2.5f;
+			}*/
+			dir.x -= 2.5f;
+			dir.y += 2.5f;
+		}
+
+		if (IsKeyDown(KEY_S)) {
+			/*if (dir.x < 0) {
+				dir.x += 2.5f;
+			}
+			else {
+				dir.x += 2.5f;
+			}*/
+			dir.x += 2.5f;
+			dir.y -= 2.5f;
+		}
+	}
+
+	if (IsKeyDown(KEY_RIGHT))
+	{
+		if (IsKeyDown(KEY_UP)) {
+			/*if (dir.x < 0) {
+				dir.x += 2.5f;
+			}
+			else {
+				dir.x += 2.5f;
+			}*/
+			dir.x -= 2.5f;
+			dir.y += 2.5f;
+		}
+
+		if (IsKeyDown(KEY_DOWN)) {
+			/*if (dir.x < 0) {
+				dir.x += 2.5f;
+			}
+			else {
+				dir.x += 2.5f;
+			}*/
+			dir.x += 2.5f;
+			dir.y -= 2.5f;
+		}
+	}
+
 
 	if (Position.x >= 600 + 600)
 	{
@@ -109,7 +159,14 @@ void Ball::Update()
 				dir.y *= 2.5f;
 				isSlow = false;
 			}
-			dir = raylib::Vector2(-abs(dir.x), dir.y);
+
+			if (hitInvert1) {
+				dir = raylib::Vector2(-abs(dir.x), -dir.y);
+			}
+			else {
+				dir = raylib::Vector2(-abs(dir.x), dir.y);
+			}
+			
 		}
 	}
 
@@ -124,7 +181,14 @@ void Ball::Update()
 				dir.y *= 2.5f;
 				isSlow = false;
 			}
-			dir = raylib::Vector2(abs(dir.x), dir.y);
+
+			if (hitInvert2) {
+				dir = raylib::Vector2(abs(dir.x), -dir.y);
+			}
+			else {
+				dir = raylib::Vector2(abs(dir.x), dir.y);
+			}
+			
 		}
 	}
 

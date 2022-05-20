@@ -21,8 +21,8 @@ Game::Game()
 
 void Game::Start() 
 {
-	Player1 = new Player(defaultBatTex, raylib::Vector2(40, 225));
-	Player2 = new Player(defaultBatTex, raylib::Vector2(550, 225));
+	Player1 = new Player(defaultBatTex, raylib::Vector2(40, 225), WHITE);
+	Player2 = new Player(defaultBatTex, raylib::Vector2(550, 225), WHITE);
 
 	ball = new Ball(defaultBallTex, raylib::Vector2(290, 290));
 	ball->Start();
@@ -56,7 +56,7 @@ void Game::Update()
 	// Handles Movement
 
 	//Player 1
-	if (IsKeyDown(KEY_W)) 
+	if (IsKeyDown(KEY_W) && !IsKeyDown(KEY_A))
 	{
 		Player1->Position.y -= PlayerSpeed * GetFrameTime();
 		ball->Player1Pos = Player1->Position;
@@ -64,7 +64,7 @@ void Game::Update()
 			Player1->Position.y = 0;
 		}
 	}
-	else if (IsKeyDown(KEY_S)) 
+	else if (IsKeyDown(KEY_S) && !IsKeyDown(KEY_A))
 	{
 		Player1->Position.y += PlayerSpeed * GetFrameTime();
 		ball->Player1Pos = Player1->Position;
@@ -74,7 +74,7 @@ void Game::Update()
 	}
 
 	// Player 2
-	if (IsKeyDown(KEY_DOWN)) 
+	if (IsKeyDown(KEY_DOWN) && ! IsKeyDown(KEY_RIGHT)) 
 	{
 		Player2->Position.y += PlayerSpeed * GetFrameTime();
 		ball->Player2Pos = Player2->Position;
@@ -82,13 +82,31 @@ void Game::Update()
 			Player2->Position.y = 600 - 65;
 		}
 	}
-	else if (IsKeyDown(KEY_UP)) 
+	else if (IsKeyDown(KEY_UP) && !IsKeyDown(KEY_RIGHT))
 	{
 		Player2->Position.y -= PlayerSpeed * GetFrameTime();
 		ball->Player2Pos = Player2->Position;
 		if (Player2->Position.y < 0) {
 			Player2->Position.y = 0;
 		}
+	}
+
+	if (IsKeyDown(KEY_LEFT)) {
+		ball->hitInvert2 = true;
+		Player2->Colour = DARKGRAY;
+	}
+	else {
+		ball->hitInvert2 = false;
+		Player2->Colour = WHITE;
+	}
+
+	if (IsKeyDown(KEY_D)) {
+		ball->hitInvert1 = true;
+		Player1->Colour = DARKGRAY;
+	}
+	else {
+		ball->hitInvert1 = false;
+		Player1->Colour = WHITE;
 	}
 
 	ball->Update();
