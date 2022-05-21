@@ -63,6 +63,11 @@ int main()
             {
                 if (GetMousePosition().x > 200 && GetMousePosition().x < 200 + 200) {
                     if (GetMousePosition().y > 500 && GetMousePosition().y < 500 + 80) {
+                        game.ballControl = ballControl->isOn;
+                        game.ballControlLastPlayerOnly = ballControlLastPlayerOnly->isOn;
+                        game.invinceAbility = invinceAbility->isOn;
+                        game.deflectAbility = deflectAbility->isOn;
+                        
                         game.Start();
                         gameShouldStart = true;
                     }

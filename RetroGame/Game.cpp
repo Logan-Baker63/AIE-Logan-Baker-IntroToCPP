@@ -24,7 +24,7 @@ void Game::Start()
 	Player1 = new Player(defaultBatTex, raylib::Vector2(40, 225), WHITE);
 	Player2 = new Player(defaultBatTex, raylib::Vector2(550, 225), WHITE);
 
-	ball = new Ball(defaultBallTex, raylib::Vector2(290, 290), WHITE);
+	ball = new Ball(defaultBallTex, raylib::Vector2(290, 290), WHITE, ballControl, ballControlLastPlayerOnly, invinceAbility);
 	ball->Start();
 
 	
@@ -91,7 +91,7 @@ void Game::Update()
 		}
 	}
 
-	if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) {
+	if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && deflectAbility) {
 		ball->hitInvert2 = true;
 		Player2->Colour = DARKGRAY;
 	}
@@ -100,7 +100,7 @@ void Game::Update()
 		Player2->Colour = WHITE;
 	}
 
-	if (IsKeyDown(KEY_D) && !IsKeyDown(KEY_A)) {
+	if (IsKeyDown(KEY_D) && !IsKeyDown(KEY_A) && deflectAbility) {
 		ball->hitInvert1 = true;
 		Player1->Colour = DARKGRAY;
 	}

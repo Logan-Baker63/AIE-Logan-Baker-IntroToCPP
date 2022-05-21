@@ -4,16 +4,18 @@
 #include <iostream>
 #include <stdlib.h>
 
-
 using namespace std;
 
 Vector2 dir = raylib::Vector2(0, 0);
 
-Ball::Ball(Texture2D texture, Vector2 position, Color colour)
+Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, bool ballControlLastPlayerOnly, bool invinceAbility)
 {
 	Texture = texture;
 	Position = position;
 	Colour = colour;
+	this->ballControl = ballControl;
+	this->ballControlLastPlayerOnly = ballControlLastPlayerOnly;
+	this->invinceAbility = invinceAbility;
 }
 
 float startTimer = 0;
@@ -86,69 +88,72 @@ void Ball::Start()
 
 void Ball::Update() 
 {
+	if (ballControl) 
+	{
+		if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && InvinceAbilityCheck() && LastPlayerTouchBall(1))
+		{
+			if (IsKeyDown(KEY_W)) {
+				/*if (dir.x < 0) {
+					dir.x += 2.5f;
+				}
+				else {
+					dir.x += 2.5f;
+				}*/
+
+				if (IsKeyDown(KEY_A) && !dir.x > -20) {
+					dir.x -= 4.5f;
+				}
+
+				dir.y += 11.5f;
+			}
+
+			if (IsKeyDown(KEY_S)) {
+				/*if (dir.x < 0) {
+					dir.x += 2.5f;
+				}
+				else {
+					dir.x += 2.5f;
+				}*/
+
+				if (IsKeyDown(KEY_A) && !dir.x > -20) {
+					dir.x -= 4.5f;
+				}
+				dir.y -= 11.5f;
+			}
+		}
+
+		if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && InvinceAbilityCheck() && LastPlayerTouchBall(2))
+		{
+			if (IsKeyDown(KEY_UP)) {
+				/*if (dir.x < 0) {
+					dir.x += 2.5f;
+				}
+				else {
+					dir.x += 2.5f;
+				}*/
+
+				if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
+					dir.x += 4.5f;
+				}
+				dir.y += 11.5f;
+			}
+
+			if (IsKeyDown(KEY_DOWN)) {
+				/*if (dir.x < 0) {
+					dir.x += 2.5f;
+				}
+				else {
+					dir.x += 2.5f;
+				}*/
+
+				if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
+					dir.x += 4.5f;
+				}
+				dir.y -= 11.5f;
+			}
+		}
+	}
 	
-	if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && !(IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)) && lastPlayer == 1)
-	{
-		if (IsKeyDown(KEY_W)) {
-			/*if (dir.x < 0) {
-				dir.x += 2.5f;
-			}
-			else {
-				dir.x += 2.5f;
-			}*/
-
-			if (IsKeyDown(KEY_A) && !dir.x > -20) {
-				dir.x -= 4.5f;
-			}
-			
-			dir.y += 11.5f;
-		}
-
-		if (IsKeyDown(KEY_S)) {
-			/*if (dir.x < 0) {
-				dir.x += 2.5f;
-			}
-			else {
-				dir.x += 2.5f;
-			}*/
-			
-			if (IsKeyDown(KEY_A) && !dir.x > -20) {
-				dir.x -= 4.5f;
-			}
-			dir.y -= 11.5f;
-		}
-	}
-
-	if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_A) && IsKeyDown(KEY_D)) && lastPlayer == 2)
-	{
-		if (IsKeyDown(KEY_UP)) {
-			/*if (dir.x < 0) {
-				dir.x += 2.5f;
-			}
-			else {
-				dir.x += 2.5f;
-			}*/
-			
-			if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
-				dir.x += 4.5f;
-			}
-			dir.y += 11.5f;
-		}
-
-		if (IsKeyDown(KEY_DOWN)) {
-			/*if (dir.x < 0) {
-				dir.x += 2.5f;
-			}
-			else {
-				dir.x += 2.5f;
-			}*/
-			
-			if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
-				dir.x += 4.5f;
-			}
-			dir.y -= 11.5f;
-		}
-	}
 
 
 	if (Position.x >= 600)
@@ -237,14 +242,45 @@ void Ball::Update()
 	}
 
 	Move(dir);
+
+	
 }
+
+bool Ball::InvinceAbilityCheck() {
+	if (invinceAbility) {
+		if ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)) || (IsKeyDown(KEY_A) && IsKeyDown(KEY_D))) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	else {
+		return true;
+	}
+}
+
+bool Ball::LastPlayerTouchBall(int player) {
+	if (ballControlLastPlayerOnly) {
+		if (player == lastPlayer) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return true;
+	}
+}
+
 
 float timer = 0;
 float timer2 = 0;
 
 void Ball::Draw()
 {
-	if ((IsKeyDown(KEY_D) && IsKeyDown(KEY_A)) || ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))) {
+	if (!InvinceAbilityCheck()) {
 		Colour = GOLD;
 		timer += GetFrameTime();
 		if (timer >= 0.3f) {

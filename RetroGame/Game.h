@@ -18,6 +18,10 @@ public:
 	void Draw();
 	float PlayerSpeed = 500;
 	
+	bool ballControl = false;
+	bool ballControlLastPlayerOnly = false;
+	bool invinceAbility = false;
+	bool deflectAbility = false;
 
 };
 
