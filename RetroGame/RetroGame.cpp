@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Game.h"
 #include "Setting.h"
+#include "SettingInputBox.h"
 
 int main()
 {
@@ -20,6 +21,9 @@ int main()
     Setting* ballControlLastPlayerOnly = new Setting("only last player to touch ball", raylib::Vector2(200, 20));
     Setting* invinceAbility = new Setting("Invince-ability", raylib::Vector2(20, 80));
     Setting* deflectAbility = new Setting("Deflect ability", raylib::Vector2(20, 140));
+
+    SettingInputBox* ySpeed = new SettingInputBox("Ball Control Y-Speed", raylib::Vector2(20, 220), raylib::Vector2(150, 30));
+    SettingInputBox* xSpeed = new SettingInputBox("Ball Control X-Speed", raylib::Vector2(20, 300), raylib::Vector2(150, 30));
 
     Game game;
 
@@ -43,6 +47,9 @@ int main()
             EndDrawing();
         }
         else {
+            ySpeed->Update();
+            xSpeed->Update();
+            
             BeginDrawing();
 
             ClearBackground(GRAY);
@@ -53,6 +60,8 @@ int main()
             ballControlLastPlayerOnly->Draw();
             invinceAbility->Draw();
             deflectAbility->Draw();
+            ySpeed->Draw();
+            xSpeed->Draw();
 
             DrawRectangle(200, 500, 200, 80, GRAY);
             DrawText("Start", 235, 520, 46, DARKGRAY);
