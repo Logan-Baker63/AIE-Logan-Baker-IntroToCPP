@@ -8,6 +8,7 @@ using namespace std;
 Player* Player1;
 Player* Player2;
 Ball* ball;
+
 /*Ball* ball2;
 
 float timer = 0;

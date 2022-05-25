@@ -29,11 +29,12 @@ int main()
     Game game;
 
     bool gameShouldStart = false;
+    bool gameShouldEnd = false;
 
     //game.Start();
 
     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!gameShouldEnd)    // Detect window close button or ESC key
     {
         
         if (gameShouldStart) {
@@ -69,17 +70,26 @@ int main()
             DrawRectangle(200, 500, 200, 80, GRAY);
             DrawText("Start", 235, 520, 46, DARKGRAY);
 
+            DrawRectangle(GetScreenWidth() - 200 - 200, GetScreenHeight() - 100, 200, 80, GRAY);
+            DrawText("Quit", GetScreenWidth() - 200 - 200 + 35, GetScreenHeight() - 100 + 20, 46, DARKGRAY);
+
             EndDrawing();
 
             if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
             {
+                if (GetMousePosition().x > GetScreenWidth() - 400 && GetMousePosition().x < GetScreenWidth() - 400 + 200) {
+                    if (GetMousePosition().y > GetScreenHeight() - 100 && GetMousePosition().y < GetScreenHeight() - 100 + 80) {
+                        gameShouldEnd = true;
+                    }
+                }
+
                 if (GetMousePosition().x > 200 && GetMousePosition().x < 200 + 200) {
                     if (GetMousePosition().y > 500 && GetMousePosition().y < 500 + 80) {
                         game.ballControl = ballControl->isOn;
                         game.ballControlLastPlayerOnly = ballControlLastPlayerOnly->isOn;
                         game.invinceAbility = invinceAbility->isOn;
                         game.deflectAbility = deflectAbility->isOn;
-                        
+
                         game.xSpeed = game.charArrayToInt(xSpeed->name);
                         game.ySpeed = game.charArrayToInt(ySpeed->name);
                         game.angleLimit = game.charArrayToInt(angleLimit->name);
@@ -90,8 +100,14 @@ int main()
                 }
             }
 
+            
+
         }
         
+        if (WindowShouldClose()) {
+            gameShouldStart = false;
+        }
+
     }
     CloseWindow();
 
