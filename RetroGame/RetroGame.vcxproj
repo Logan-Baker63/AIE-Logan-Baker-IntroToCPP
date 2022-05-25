@@ -24,6 +24,7 @@
     <ProjectGuid>{4c26995b-823b-46cc-b049-f5add28dc931}</ProjectGuid>
     <RootNamespace>RetroGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Cursed Pong</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

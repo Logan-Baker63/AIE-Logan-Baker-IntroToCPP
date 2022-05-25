@@ -48,10 +48,23 @@ const int* BinarySearch(const int* arr, int count, int searchVal)
 	//	- Return: nullptr if the value is not found
 	//  - Return: pointer to the found value in the array
 	
-	for (int i = 0; i < count; i++) {
-		if (arr[i] == searchVal) {
-			return &arr[i];
+	static int offset = 0;
+
+	if (count >= offset) {
+		int midOfArr = offset + (count - offset) / 2; // sets midOfArr to the middle of the array
+
+		if (arr[midOfArr] > searchVal) {
+			return BinarySearch(arr, midOfArr - 1, searchVal); // Decreases the count if the point in the array is too large
 		}
+
+		if (arr[midOfArr] == searchVal) {
+			return &arr[midOfArr]; // Returns the pointer to the array num if it matches the search value
+
+			offset = 0;
+		}
+
+		offset = midOfArr + 1;
+		return BinarySearch(arr, count, searchVal);
 	}
 
 	return nullptr;
