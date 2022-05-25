@@ -22,12 +22,36 @@ Game::Game()
 void Game::Start() 
 {
 	Player1 = new Player(defaultBatTex, raylib::Vector2(40, 225), WHITE);
-	Player2 = new Player(defaultBatTex, raylib::Vector2(550, 225), WHITE);
+	Player2 = new Player(defaultBatTex, raylib::Vector2(GetScreenWidth() - 50, 225), WHITE);
 
-	ball = new Ball(defaultBallTex, raylib::Vector2(290, 290), WHITE, ballControl, ballControlLastPlayerOnly, invinceAbility);
+	ball = new Ball(defaultBallTex, raylib::Vector2(GetScreenWidth() / 2 - 10, 290), WHITE, ballControl, ballControlLastPlayerOnly, invinceAbility, xSpeed, ySpeed, angleLimit);
 	ball->Start();
 
 	
+}
+
+int Game::charArrayToInt(char* arr) {
+	int i, value, r, flag;
+
+	flag = 1;
+	i = value = 0;
+
+	for (i = 0; i < strlen(arr); ++i) {
+
+		// if arr contain negative number
+		if (i == 0 && arr[i] == '-') {
+			flag = -1;
+			continue;
+		}
+
+		r = arr[i] - '0';
+		value = value * 10 + r;
+	}
+
+	value = value * flag;
+
+	return value;
+
 }
 
 void Game::Update() 

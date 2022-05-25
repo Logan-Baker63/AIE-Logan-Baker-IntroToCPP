@@ -3,10 +3,11 @@
 #include "raylib-cpp.hpp"
 #include <string>
 
-Setting::Setting(const char* text, Vector2 position) 
+Setting::Setting(const char* text, Vector2 position, bool onByDefault) 
 {
 	Text = text;
 	Position = position;
+	isOn = onByDefault;
 }
 
 void Setting::Draw() 

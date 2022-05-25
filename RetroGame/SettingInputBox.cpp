@@ -9,9 +9,40 @@ SettingInputBox::SettingInputBox(const char* text, Vector2 position, Vector2 sca
     Position = position;
     Scale = scale;
     
-    name[0] = '1';
-    name[1] = '2';
+    if (Text == "Ball Control X-Speed") {
+        name[0] = '0';
+    }
+    else if (Text == "Ball Control Y-Speed") {
+        name[0] = '6';
+    }
+    else if (Text == "Max Speed") {
+        name[0] = '2';
+        name[1] = '5';
+        name[2] = '0';
+
+        letterCount = 3;
+    }
+    
     TextBox = { Position.x, Position.y, Scale.x, Scale.y};
+
+    /*if (val3) {
+        letterCount = 3;
+    }
+    else {
+        if (val2) {
+            letterCount = 2;
+        }
+        else {
+            if (val1) {
+                letterCount = 1;
+            }
+            else {
+                letterCount = 0;
+            }
+        }
+    }*/
+
+
 }
 
 void SettingInputBox::Update() 

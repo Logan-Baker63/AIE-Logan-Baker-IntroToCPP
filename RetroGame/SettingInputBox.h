@@ -18,7 +18,7 @@ public:
 	int MaxChars = 3;
 	char name[3 + 1] = "\0";
 
-	int letterCount = 2;
+	int letterCount = 1;
 
 	Rectangle TextBox;
 	bool mouseOnText = false;

@@ -6,13 +6,18 @@
 
 using namespace std;
 
-Vector2 dir = raylib::Vector2(0, 0);
 
-Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, bool ballControlLastPlayerOnly, bool invinceAbility)
+
+Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, bool ballControlLastPlayerOnly, bool invinceAbility, int xSpeed, int ySpeed, int speedLimit)
 {
 	Texture = texture;
 	Position = position;
 	Colour = colour;
+
+	this->xSpeed = xSpeed;
+	this->ySpeed = ySpeed;
+	SpeedLimit = speedLimit;
+
 	this->ballControl = ballControl;
 	this->ballControlLastPlayerOnly = ballControlLastPlayerOnly;
 	this->invinceAbility = invinceAbility;
@@ -88,6 +93,11 @@ void Ball::Start()
 
 void Ball::Update() 
 {
+	
+	if (IsKeyDown(KEY_P)) {
+		int p = 0;
+	}
+	
 	if (ballControl) 
 	{
 		if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && InvinceAbilityCheck() && LastPlayerTouchBall(1))
@@ -100,11 +110,12 @@ void Ball::Update()
 					dir.x += 2.5f;
 				}*/
 
-				if (IsKeyDown(KEY_A) && !dir.x > -20) {
-					dir.x -= 4.5f;
+				if (dir.y < SpeedLimit) {
+					dir.x -= xSpeed;
+					dir.y += ySpeed;
 				}
 
-				dir.y += 11.5f;
+				
 			}
 
 			if (IsKeyDown(KEY_S)) {
@@ -115,10 +126,11 @@ void Ball::Update()
 					dir.x += 2.5f;
 				}*/
 
-				if (IsKeyDown(KEY_A) && !dir.x > -20) {
-					dir.x -= 4.5f;
+				if (dir.y > -SpeedLimit) {
+					dir.x -= xSpeed;
+					dir.y -= ySpeed;
 				}
-				dir.y -= 11.5f;
+				
 			}
 		}
 
@@ -132,10 +144,11 @@ void Ball::Update()
 					dir.x += 2.5f;
 				}*/
 
-				if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
-					dir.x += 4.5f;
+				if (dir.y < SpeedLimit) {
+					dir.x += xSpeed;
+					dir.y += ySpeed;
 				}
-				dir.y += 11.5f;
+				
 			}
 
 			if (IsKeyDown(KEY_DOWN)) {
@@ -146,17 +159,18 @@ void Ball::Update()
 					dir.x += 2.5f;
 				}*/
 
-				if (IsKeyDown(KEY_RIGHT) && !dir.x < 20) {
-					dir.x += 4.5f;
+				if (dir.y > -SpeedLimit) {
+					dir.x += xSpeed;
+					dir.y -= ySpeed;
 				}
-				dir.y -= 11.5f;
+				
 			}
 		}
 	}
 	
 
 
-	if (Position.x >= 600)
+	if (Position.x >= GetScreenWidth())
 	{
 		// Player 1 Point
 		Start();
@@ -310,7 +324,7 @@ void Ball::Draw()
 	score2 = &str2[0];
 
 	DrawText(score1, 150 - MeasureText(score1, 40), 150, 40, RAYWHITE);
-	DrawText(score2, 450 - MeasureText(score2, 40), 150, 40, RAYWHITE);
+	DrawText(score2, GetScreenWidth() - 150 - MeasureText(score2, 40), 150, 40, RAYWHITE);
 
 }
 
