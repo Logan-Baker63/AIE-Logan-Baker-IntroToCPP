@@ -9,7 +9,7 @@ int main()
     int screenWidth = 1000;
     int screenHeight = 600;
 
-    InitWindow(screenWidth, screenHeight, "Peng Pang");
+    InitWindow(screenWidth, screenHeight, "Cursed Pong");
     SetWindowIcon(LoadImage("Textures/PongIcon.png"));
 
     
@@ -67,23 +67,47 @@ int main()
             xSpeed->Draw();
             angleLimit->Draw();
 
-            DrawRectangle(200, 500, 200, 80, GRAY);
-            DrawText("Start", 235, 520, 46, DARKGRAY);
+            DrawRectangle(100, 500, 200, 80, GRAY);
+            DrawText("Start", 135, 520, 46, DARKGRAY);
 
-            DrawRectangle(GetScreenWidth() - 200 - 200, GetScreenHeight() - 100, 200, 80, GRAY);
-            DrawText("Quit", GetScreenWidth() - 200 - 200 + 35, GetScreenHeight() - 100 + 20, 46, DARKGRAY);
+            DrawRectangle(400, 500, 200, 80, GRAY);
+            DrawText("Reset", 435, 520, 46, DARKGRAY);
+
+            DrawRectangle(GetScreenWidth() - 100 - 200, GetScreenHeight() - 100, 200, 80, GRAY);
+            DrawText("Quit", GetScreenWidth() - 100 - 200 + 35, GetScreenHeight() - 100 + 20, 46, DARKGRAY);
 
             EndDrawing();
 
             if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
             {
-                if (GetMousePosition().x > GetScreenWidth() - 400 && GetMousePosition().x < GetScreenWidth() - 400 + 200) {
+                if (GetMousePosition().x > 400 && GetMousePosition().x < 400 + 200) {
+                    if (GetMousePosition().y > 500 && GetMousePosition().y < 500 + 80) {
+                        ballControl->isOn = true;
+                        ballControlLastPlayerOnly->isOn = false;
+                        invinceAbility->isOn = true;
+                        deflectAbility->isOn = true;
+
+                        xSpeed->name[0] = '0';
+                        xSpeed->name[1] = NULL;
+                        xSpeed->name[2] = NULL;
+
+                        ySpeed->name[0] = '6';
+                        ySpeed->name[1] = NULL;
+                        ySpeed->name[2] = NULL;
+
+                        angleLimit->name[0] = '2';
+                        angleLimit->name[1] = '5';
+                        angleLimit->name[2] = '0';
+                    }
+                }
+
+                if (GetMousePosition().x > GetScreenWidth() - 300 && GetMousePosition().x < GetScreenWidth() - 300 + 200) {
                     if (GetMousePosition().y > GetScreenHeight() - 100 && GetMousePosition().y < GetScreenHeight() - 100 + 80) {
                         gameShouldEnd = true;
                     }
                 }
 
-                if (GetMousePosition().x > 200 && GetMousePosition().x < 200 + 200) {
+                if (GetMousePosition().x > 100 && GetMousePosition().x < 100 + 200) {
                     if (GetMousePosition().y > 500 && GetMousePosition().y < 500 + 80) {
                         game.ballControl = ballControl->isOn;
                         game.ballControlLastPlayerOnly = ballControlLastPlayerOnly->isOn;

@@ -142,7 +142,7 @@
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="RetroGame.cpp" />
+    <ClCompile Include="CursedPong.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="SettingInputBox.cpp" />
   </ItemGroup>
