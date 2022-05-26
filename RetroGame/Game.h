@@ -27,7 +27,9 @@ public:
 	int ySpeed = 2;
 	int xSpeed = 0;
 	int angleLimit = 45;
+	int winReq = 20;
 
+	bool gameShouldStart = false;
 	
 };
 

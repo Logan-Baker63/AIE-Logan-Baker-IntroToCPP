@@ -3,13 +3,18 @@
 #include <iomanip>
 #include <iostream>
 #include <stdlib.h>
+//#include "CursedPong.h"
 
 using namespace std;
 
+//CursedPong cursedPong;
+//Game game;
 
-
-Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, bool ballControlLastPlayerOnly, bool invinceAbility, int xSpeed, int ySpeed, int speedLimit)
+Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, bool ballControlLastPlayerOnly, bool invinceAbility, int xSpeed, int ySpeed, int speedLimit, int winReq)
 {
+	//cursedPong = CursedPong();
+	//game = Game();
+
 	Texture = texture;
 	Position = position;
 	Colour = colour;
@@ -17,6 +22,7 @@ Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, 
 	this->xSpeed = xSpeed;
 	this->ySpeed = ySpeed;
 	SpeedLimit = speedLimit;
+	WinReq = winReq;
 
 	this->ballControl = ballControl;
 	this->ballControlLastPlayerOnly = ballControlLastPlayerOnly;
@@ -94,10 +100,10 @@ void Ball::Start()
 void Ball::Update() 
 {
 	
-	if (IsKeyDown(KEY_P)) {
+	if (IsKeyPressed(KEY_P)) {
 		int p = 0;
 	}
-	
+
 	if (ballControl) 
 	{
 		if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && InvinceAbilityCheck() && LastPlayerTouchBall(1))
@@ -323,9 +329,52 @@ void Ball::Draw()
 	string str2 = to_string(Player2Score);
 	score2 = &str2[0];
 
-	DrawText(score1, 150 - MeasureText(score1, 40), 150, 40, RAYWHITE);
-	DrawText(score2, GetScreenWidth() - 150 - MeasureText(score2, 40), 150, 40, RAYWHITE);
+	
+	
+	if (Player1Score >= WinReq) {
+		
+		Player2Score = 0;
 
+		bool time = WaitTime(3);
+
+		if (time == true) {
+			
+
+		}
+		else {
+			DrawText("Player 1 Wins!", (GetScreenWidth() - MeasureText("Player 1 Wins!", 40)) / 2, 150, 40, RAYWHITE);
+		}
+
+	}
+	else if (Player2Score >= WinReq) {
+		DrawText("Player 2 Wins!", (GetScreenWidth() - MeasureText("Player 2 Wins!", 40)) / 2, 150, 40, RAYWHITE);
+		Player1Score = 0;
+
+		bool time = WaitTime(3);
+
+		if (time == true) {
+			//cursedPong.gameShouldStart = false;
+		}
+	}
+	else {
+		DrawText(score1, 150 - MeasureText(score1, 40), 150, 40, RAYWHITE);
+		DrawText(score2, GetScreenWidth() - 150 - MeasureText(score2, 40), 150, 40, RAYWHITE);
+	}
+
+}
+
+float waitTimer = 0;
+bool Ball::WaitTime(int time) {
+
+	waitTimer += GetFrameTime();
+
+	if (waitTimer >= time) {
+		waitTimer = 0;
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void Ball::Move(Vector2 dir) 

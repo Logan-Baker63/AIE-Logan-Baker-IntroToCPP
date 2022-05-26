@@ -22,6 +22,13 @@ SettingInputBox::SettingInputBox(const char* text, Vector2 position, Vector2 sca
 
         letterCount = 3;
     }
+    else if (Text == "Win Requirement") {
+        name[0] = '2';
+        name[1] = '0';
+        name[2] = NULL;
+
+        letterCount = 2;
+    }
     
     TextBox = { Position.x, Position.y, Scale.x, Scale.y};
 

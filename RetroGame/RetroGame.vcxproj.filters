@@ -53,5 +53,8 @@
     <ClInclude Include="SettingInputBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CursedPong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

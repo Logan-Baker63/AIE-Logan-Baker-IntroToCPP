@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Setting.h"
 #include "SettingInputBox.h"
+//#include "CursedPong.h"
 
 int main()
 {
@@ -25,7 +26,8 @@ int main()
     SettingInputBox* ySpeed = new SettingInputBox("Ball Control Y-Speed", raylib::Vector2(20, 220), raylib::Vector2(150, 30));
     SettingInputBox* xSpeed = new SettingInputBox("Ball Control X-Speed", raylib::Vector2(20, 300), raylib::Vector2(150, 30));
     SettingInputBox* angleLimit = new SettingInputBox("Max Speed", raylib::Vector2(20, 380), raylib::Vector2(150, 30));
-    
+    SettingInputBox* winAmount = new SettingInputBox("Win Requirement", raylib::Vector2(20, 460), raylib::Vector2(150, 30));
+
     Game game;
 
     bool gameShouldStart = false;
@@ -52,7 +54,8 @@ int main()
             ySpeed->Update();
             xSpeed->Update();
             angleLimit->Update();
-            
+            winAmount->Update();
+
             BeginDrawing();
 
             ClearBackground(GRAY);
@@ -66,6 +69,7 @@ int main()
             ySpeed->Draw();
             xSpeed->Draw();
             angleLimit->Draw();
+            winAmount->Draw();
 
             DrawRectangle(100, 500, 200, 80, GRAY);
             DrawText("Start", 135, 520, 46, DARKGRAY);
@@ -117,6 +121,7 @@ int main()
                         game.xSpeed = game.charArrayToInt(xSpeed->name);
                         game.ySpeed = game.charArrayToInt(ySpeed->name);
                         game.angleLimit = game.charArrayToInt(angleLimit->name);
+                        game.winReq = game.charArrayToInt(winAmount->name);
 
                         game.Start();
                         gameShouldStart = true;
@@ -135,4 +140,5 @@ int main()
     }
     CloseWindow();
 
+    return 0;
 }

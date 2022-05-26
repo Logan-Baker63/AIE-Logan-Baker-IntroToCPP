@@ -25,7 +25,7 @@ void Game::Start()
 	Player1 = new Player(defaultBatTex, raylib::Vector2(40, 225), WHITE);
 	Player2 = new Player(defaultBatTex, raylib::Vector2(GetScreenWidth() - 50, 225), WHITE);
 
-	ball = new Ball(defaultBallTex, raylib::Vector2(GetScreenWidth() / 2 - 10, 290), WHITE, ballControl, ballControlLastPlayerOnly, invinceAbility, xSpeed, ySpeed, angleLimit);
+	ball = new Ball(defaultBallTex, raylib::Vector2(GetScreenWidth() / 2 - 10, 290), WHITE, ballControl, ballControlLastPlayerOnly, invinceAbility, xSpeed, ySpeed, angleLimit, winReq);
 	ball->Start();
 
 	
