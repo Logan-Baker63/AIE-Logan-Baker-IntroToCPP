@@ -20,7 +20,7 @@ Game::Game()
 	defaultBallTex = LoadTextureFromImage(LoadImage("Textures/PongBall.png"));
 }
 
-void Game::Start() 
+void Game::Start() // creates game objects
 {
 	Player1 = new Player(defaultBatTex, raylib::Vector2(40, 225), WHITE);
 	Player2 = new Player(defaultBatTex, raylib::Vector2(GetScreenWidth() - 50, 225), WHITE);
@@ -31,7 +31,7 @@ void Game::Start()
 	
 }
 
-int Game::charArrayToInt(char* arr) {
+int Game::charArrayToInt(char* arr) { // converts char* to int
 	int i, value, r, flag;
 
 	flag = 1;
@@ -70,17 +70,9 @@ void Game::Update()
 
 	
 
-	/*if (timerFinished)
-	{
-		ball2->Player1Pos = Player1->Position;
-		ball2->Player2Pos = Player2->Position;
-
-		ball2->Update();
-	}*/
-
 	// Handles Movement
 
-	//Player 1
+	//Player 1 movement
 	if (IsKeyDown(KEY_W) && !IsKeyDown(KEY_A))
 	{
 		Player1->Position.y -= PlayerSpeed * GetFrameTime();
@@ -98,7 +90,7 @@ void Game::Update()
 		}
 	}
 
-	// Player 2
+	// Player 2 movement
 	if (IsKeyDown(KEY_DOWN) && ! IsKeyDown(KEY_RIGHT)) 
 	{
 		Player2->Position.y += PlayerSpeed * GetFrameTime();
@@ -116,6 +108,7 @@ void Game::Update()
 		}
 	}
 
+	// player 2 deflect ability
 	if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && deflectAbility) {
 		ball->hitInvert2 = true;
 		Player2->Colour = DARKGRAY;
@@ -125,6 +118,7 @@ void Game::Update()
 		Player2->Colour = WHITE;
 	}
 
+	// player 1 deflect ability
 	if (IsKeyDown(KEY_D) && !IsKeyDown(KEY_A) && deflectAbility) {
 		ball->hitInvert1 = true;
 		Player1->Colour = DARKGRAY;
@@ -138,7 +132,7 @@ void Game::Update()
 
 }
 
-void Game::Draw() 
+void Game::Draw() // draws players and ball
 {
 	Player1->Draw();
 	Player2->Draw();

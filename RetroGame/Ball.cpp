@@ -10,10 +10,14 @@ using namespace std;
 //CursedPong cursedPong;
 //Game game;
 
+
+// constructor for ball provides it with information
 Ball::Ball(Texture2D texture, Vector2 position, Color colour, bool ballControl, bool ballControlLastPlayerOnly, bool invinceAbility, int xSpeed, int ySpeed, int speedLimit, int winReq)
 {
 	//cursedPong = CursedPong();
 	//game = Game();
+
+	// sets the ball's local values to the respective ones from the game script
 
 	Texture = texture;
 	Position = position;
@@ -34,9 +38,11 @@ Vector2 normalSpeed;
 
 void Ball::Start() 
 {
-	isSlow = true;
+	isSlow = true; // starts the ball slow
 
-	lastPlayer = 0;
+	lastPlayer = 0; // last player is set to no one so no one can ball control if the setting is on when it spawns
+
+	// randomizes the ball spawn location 
 
 	int temp = std::rand() % 3;
 
@@ -92,7 +98,7 @@ void Ball::Start()
 		}
 	}
 
-	normalSpeed = dir;
+	normalSpeed = dir; // sets the normal ball speed to change back to once someone hits ball for first time
 	dir.x /= 2.5f;
 	dir.y /= 2.5f;
 }
@@ -100,14 +106,16 @@ void Ball::Start()
 void Ball::Update() 
 {
 	
-	if (IsKeyPressed(KEY_P)) {
+	if (IsKeyPressed(KEY_P)) { // place breakpoint in here for easy pause debug
 		int p = 0;
 	}
 
-	if (ballControl) 
+	if (ballControl) // if ball control is on in settings menu
 	{
+		// checks if player 1 is allowed to use ball control
 		if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D) && InvinceAbilityCheck() && LastPlayerTouchBall(1))
 		{
+			// handles using ball control for player 1
 			if (IsKeyDown(KEY_W)) {
 				/*if (dir.x < 0) {
 					dir.x += 2.5f;
@@ -140,8 +148,10 @@ void Ball::Update()
 			}
 		}
 
+		// checks if player 2 is allowed to use ball control
 		if (IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT) && InvinceAbilityCheck() && LastPlayerTouchBall(2))
 		{
+			// handles using ball control for player 2
 			if (IsKeyDown(KEY_UP)) {
 				/*if (dir.x < 0) {
 					dir.x += 2.5f;
@@ -175,26 +185,28 @@ void Ball::Update()
 	}
 	
 
-
+	// scores for player 1 if ball goes off right side of screen
 	if (Position.x >= GetScreenWidth())
 	{
 		// Player 1 Point
 		Start();
-		Position = raylib::Vector2(290, 290);
+		Position = raylib::Vector2(GetScreenWidth() / 2, GetScreenHeight() / 2);
 		Player1Score++;
 	}
 	
+	// scores for player 2 if ball goes off left side of screen
 	if (Position.x <= 0) 
 	{
 		// Player 2 Point
 		Start();
-		Position = raylib::Vector2(290, 290);
+		Position = raylib::Vector2(GetScreenWidth() / 2, GetScreenHeight() / 2);
 		Player2Score++;
 	}
 
-	if (Position.x > Player1Pos.x && Position.x < Player1Pos.x + 10) 
+	// handles ball/player1 collision
+	if (Position.x + 10 > Player1Pos.x && Position.x < Player1Pos.x + 10) 
 	{
-		if (Position.y > Player1Pos.y - 15 && Position.y < Player1Pos.y + 65 + 5) 
+		if (Position.y + 10 > Player1Pos.y - 15 && Position.y < Player1Pos.y + 65 + 5) 
 		{
 			// Collided with player 1
 
@@ -216,9 +228,10 @@ void Ball::Update()
 		}
 	}
 
-	if (Position.x >= Player2Pos.x - 10 && Position.x < Player2Pos.x + 10)
+	// handles ball/player2 collision
+	if (Position.x + 10 >= Player2Pos.x - 10 && Position.x < Player2Pos.x + 10)
 	{
-		if (Position.y > Player2Pos.y - 15 && Position.y < Player2Pos.y + 65 + 5)
+		if (Position.y + 10 > Player2Pos.y - 15 && Position.y < Player2Pos.y + 65 + 5)
 		{
 			// Collided with player 2
 
@@ -248,6 +261,7 @@ void Ball::Update()
 
 		}
 
+		// makes y dir negative
 		dir = raylib::Vector2(dir.x, -abs(dir.y));
 	}
 
@@ -258,6 +272,8 @@ void Ball::Update()
 		if ((IsKeyDown(KEY_D) && IsKeyDown(KEY_A)) || ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)))) {
 
 		}
+
+		// makes y dir positive
 		dir = raylib::Vector2(dir.x, abs(dir.y));
 	}
 
@@ -266,6 +282,7 @@ void Ball::Update()
 	
 }
 
+// checks if setting is on, if so, checks if someone is using ability
 bool Ball::InvinceAbilityCheck() {
 	if (invinceAbility) {
 		if ((IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_RIGHT)) || (IsKeyDown(KEY_A) && IsKeyDown(KEY_D))) {
@@ -280,6 +297,7 @@ bool Ball::InvinceAbilityCheck() {
 	}
 }
 
+// checks if last player to touch ball setting is on, if so, returns true if you are the last player
 bool Ball::LastPlayerTouchBall(int player) {
 	if (ballControlLastPlayerOnly) {
 		if (player == lastPlayer) {
@@ -300,6 +318,8 @@ float timer2 = 0;
 
 void Ball::Draw()
 {
+	
+	// handles colouring for Invince-Ability
 	if (!InvinceAbilityCheck()) {
 		Colour = GOLD;
 		timer += GetFrameTime();
@@ -330,7 +350,7 @@ void Ball::Draw()
 	score2 = &str2[0];
 
 	
-	
+	// handles player 1 winning
 	if (Player1Score >= WinReq) {
 		
 		Player2Score = 0;
@@ -345,7 +365,7 @@ void Ball::Draw()
 			DrawText("Player 1 Wins!", (GetScreenWidth() - MeasureText("Player 1 Wins!", 40)) / 2, 150, 40, RAYWHITE);
 		}
 
-	}
+	} // handles player 2 winning
 	else if (Player2Score >= WinReq) {
 		DrawText("Player 2 Wins!", (GetScreenWidth() - MeasureText("Player 2 Wins!", 40)) / 2, 150, 40, RAYWHITE);
 		Player1Score = 0;
@@ -356,7 +376,7 @@ void Ball::Draw()
 			//cursedPong.gameShouldStart = false;
 		}
 	}
-	else {
+	else { // displays player scores
 		DrawText(score1, 150 - MeasureText(score1, 40), 150, 40, RAYWHITE);
 		DrawText(score2, GetScreenWidth() - 150 - MeasureText(score2, 40), 150, 40, RAYWHITE);
 	}
@@ -364,7 +384,7 @@ void Ball::Draw()
 }
 
 float waitTimer = 0;
-bool Ball::WaitTime(int time) {
+bool Ball::WaitTime(int time) { // function for waiting for time, I was getting annoyed
 
 	waitTimer += GetFrameTime();
 
@@ -377,7 +397,7 @@ bool Ball::WaitTime(int time) {
 	}
 }
 
-void Ball::Move(Vector2 dir) 
+void Ball::Move(Vector2 dir) // ball direction and speed (I know, it's bad)
 {
 	Position.x -= dir.x * GetFrameTime();
 	Position.y -= dir.y * GetFrameTime();

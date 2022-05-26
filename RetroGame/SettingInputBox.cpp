@@ -3,12 +3,13 @@
 #include "raylib-cpp.hpp"
 #include <string>
 
-SettingInputBox::SettingInputBox(const char* text, Vector2 position, Vector2 scale)
+SettingInputBox::SettingInputBox(const char* text, Vector2 position, Vector2 scale) // constructor stores text input info
 {
     Text = text; 
     Position = position;
     Scale = scale;
     
+    // checks to set default text values (has to be updated every new input box is added unless default should be NULL)
     if (Text == "Ball Control X-Speed") {
         name[0] = '0';
     }
@@ -30,7 +31,7 @@ SettingInputBox::SettingInputBox(const char* text, Vector2 position, Vector2 sca
         letterCount = 2;
     }
     
-    TextBox = { Position.x, Position.y, Scale.x, Scale.y};
+    TextBox = { Position.x, Position.y, Scale.x, Scale.y}; // stores information in one variable
 
     /*if (val3) {
         letterCount = 3;
@@ -54,10 +55,10 @@ SettingInputBox::SettingInputBox(const char* text, Vector2 position, Vector2 sca
 
 void SettingInputBox::Update() 
 {
-    if (CheckCollisionPointRec(GetMousePosition(), TextBox)) mouseOnText = true;
+    if (CheckCollisionPointRec(GetMousePosition(), TextBox)) mouseOnText = true; // if mouse is on the text box
     else mouseOnText = false;
 
-    if (mouseOnText)
+    if (mouseOnText) // if mouse is on the text box
     {
         // Set the window's cursor to the I-Beam
         SetMouseCursor(MOUSE_CURSOR_IBEAM);
@@ -94,23 +95,23 @@ void SettingInputBox::Update()
 
 void SettingInputBox::Draw()
 {
-    DrawText(Text, Position.x, Position.y - 20, 20, GRAY);
+    DrawText(Text, Position.x, Position.y - 20, 20, GRAY); // draws the title text above the text box
 
-    DrawRectangleRec(TextBox, LIGHTGRAY);
-    if (mouseOnText) DrawRectangleLines((int)TextBox.x, (int)TextBox.y, (int)TextBox.width, (int)TextBox.height, RED);
+    DrawRectangleRec(TextBox, LIGHTGRAY); // draws the text box
+    if (mouseOnText) DrawRectangleLines((int)TextBox.x, (int)TextBox.y, (int)TextBox.width, (int)TextBox.height, RED); // highlights the selected box
     else DrawRectangleLines((int)TextBox.x, (int)TextBox.y, (int)TextBox.width, (int)TextBox.height, DARKGRAY);
 
-    DrawText(name, (int)TextBox.x + 5, (int)TextBox.y, 30, MAROON);
+    DrawText(name, (int)TextBox.x + 5, (int)TextBox.y, 30, MAROON); // draws the text in the text box
 
-    DrawText(TextFormat("%i/%i", letterCount, MaxChars), Position.x + 160, Position.y + 5, 20, DARKGRAY);
+    DrawText(TextFormat("%i/%i", letterCount, MaxChars), Position.x + 160, Position.y + 5, 20, DARKGRAY); // draws max chars for the text box
 
-    if (mouseOnText)
+    if (mouseOnText) // handles blinking underscore
     {
         if (letterCount < MaxChars)
         {
             // Draw blinking underscore char
             if (((framesCounter / 20) % 2) == 0) DrawText("_", (int)TextBox.x + 8 + MeasureText(name, 40), (int)TextBox.y - 2, 40, MAROON);
         }
-        else DrawText("Press BACKSPACE to delete chars...", Position.x + 160, Position.y + 30, 20, GRAY);
+        else DrawText("Press BACKSPACE to delete chars...", Position.x + 160, Position.y + 30, 20, GRAY); // draws info how to remove text if you have maximum chars
     }
 }
